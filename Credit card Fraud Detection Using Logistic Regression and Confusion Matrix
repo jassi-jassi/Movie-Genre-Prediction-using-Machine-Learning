@@ -1,0 +1,68 @@
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
+from sklearn.linear_model import LogisticRegression
+
+#load the data
+data =pd.read_csv('/content/fraudTrain.csv')
+
+#preview of data
+data.head()
+
+#Countiung Rows and Coloumns
+print("Number of columns: {}".format(data.shape[1]))
+print("Number of rows: {}".format(data.shape[0]))
+
+#description of data
+data.info()
+
+#check null values
+data.isnull().sum()
+
+sc = StandardScaler()
+data['amt'] = sc.fit_transform(pd.DataFrame(data['amt']))
+data.head()
+
+# Convert 'trans_date_trans_time' to datetime
+data['trans_date_trans_time'] = pd.to_datetime(data['trans_date_trans_time'])
+
+# Convert datetime to numeric representation (Unix timestamp)
+data['trans_date_trans_time'] = data['trans_date_trans_time'].astype(int) / 10**9
+
+#training data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.linear_model import LogisticRegression 
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report,roc_auc_score
+
+
+# Step 1: Prepare the Data
+X = data.drop(['is_fraud', 'trans_date_trans_time', 'dob',  'first', 'last', 'street', 'trans_num'], axis=1)
+y = data['is_fraud']
+
+# Step 2: Split Data into Train and Test Sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 3: Build a Logistic Regression Model
+lr_model = LogisticRegression()
+lr_model.fit(X_train, y_train)
+
+# Step 4: Evaluate the Logistic Regression Model
+y_pred_lr = lr_model.predict(X_test)
+accuracy_lr = accuracy_score(y_test, y_pred_lr)
+conf_matrix_lr = confusion_matrix(y_test, y_pred_lr)
+classification_rep_lr = classification_report(y_test, y_pred_lr)
+auc_roc_lr = roc_auc_score(y_test, y_pred_lr)
+
+print("\nLogistic Regression Model:")
+print("Accuracy:", accuracy_lr)
+print("Confusion Matrix:\n", conf_matrix_lr)
+print("Classification Report:\n", classification_rep_lr)
+print("ROC-AUC Score:", auc_roc_lr)
+
