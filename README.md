@@ -1,6 +1,4 @@
-Absolutely! Here's a description you can use for your GitHub repository:
-
----
+--
 
 ## Movie Genre Prediction using Machine Learning
 
@@ -26,9 +24,6 @@ This project focuses on developing a machine learning model capable of predictin
 
 This project aims to contribute to the domain of movie recommendation systems and content categorization by leveraging machine learning and NLP techniques for accurate genre prediction.
 
-
----
-Certainly! Here's the GitHub description for your project:
 
 ---
 
